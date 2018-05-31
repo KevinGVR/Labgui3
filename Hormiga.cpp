@@ -16,6 +16,13 @@
 Laberinto* Hormiga::laberinto_p = 0; // inicialización de variable static privada
 
 Hormiga::Hormiga() {
+    idVrtActual =-1;
+    haSalido=false;
+    haRegresado=false;
+    destino='F';
+    enRetroceso=0;
+    longitudSolucion=0;
+    deltaFerormona=0;
 }
 
 Hormiga::Hormiga(const Hormiga& orig) {
