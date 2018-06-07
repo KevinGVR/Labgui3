@@ -55,7 +55,7 @@ public:
 
     // REQ: que la hormiga (*this) esté activa.
     // EFE: la hormiga avanza a un vértice adyacente al que está en el laberinto.
-    void mover();
+    void mover(double probMovAzar);
     
     // EFE: asigna la referencia al laberinto que accesarán todas las hormigas.
     static void asgLaberinto(Laberinto& lbrt);

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -177,57 +177,20 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const
                     previo[adys[i]]=prev;
                     dist[adys[i]]=dist[idVrtMenor]+1;                    
                 }
-            }
-            
+            }           
         }
         camino.resize(dist[idVrtD]);
             vector<int>::reverse_iterator it;
             it = camino.rbegin();
             int i;
-//            camino[*it]=idVrtD;
-//            it++;
             i=previo[idVrtD];
             while(it != camino.rend()){
-                camino[*it]=previo[i];
+                camino[*it]=i;
                 i=previo[i];
                 it++;
             }
     }
     return dist[idVrtD];
-//    vector<int>dist;
-//    vector<int>previo;
-//    vector<bool>visitados;
-//    dist.resize(vertices.size(),INT_MAX);
-//    previo.resize(vertices.size(), -1);
-//    visitados.resize(vertices.size(), false);
-//    if ((idVrtO < vertices.size())&&(0 <= idVrtO)&&(idVrtD < vertices.size())&&(0 <= idVrtD)){
-//        for (int p=0; vertices.size(); p++){
-//            if(xstAdy(idVrtO,p)){
-//                dist[p]= 1;
-//            }
-//        }
-//        dist[idVrtO] = 0;  
-//        while(visitados[idVrtD]== false){              //busca la distancia menor y el vertice que la tiene
-//            int idVrtMenor=-1;
-//            int distMenor= INT_MAX;
-//            for(int y = 0; y<vertices.size(); y++){
-//                if(dist[y]<distMenor && !visitados[y]){
-//                    idVrtMenor=y;
-//                    distMenor=dist[y];
-//                    previo[y]=idVrtO;
-//                }
-//            }
-//            vector<int>ady;
-//            obtIdVrtAdys(idVrtMenor,ady);
-//            visitados[idVrtMenor]=true;
-//            int prev=idVrtMenor;
-//            for(int i=0;i<sizeof(idVrtMenor);i++){               
-//                if(!visitados[ady[i]] && dist[idVrtMenor]+1<dist[ady[i]]){
-//                    dist[ady[i]]=dist[idVrtMenor]+1;
-//                }
-//            }
-//        }
-//    }
 }
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const {
 }
