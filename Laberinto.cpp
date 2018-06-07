@@ -22,9 +22,9 @@
 #include <limits.h>
 
 
-std::list<int>::iterator it;
+
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
-    
+    std::list<int>::iterator it;
     vertices.resize(cantidadVrts);
     for(int i=0;i<cantidadVrts;i++){
         double random;
@@ -44,11 +44,11 @@ Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
 Laberinto::Laberinto(ifstream& archivo){
     int pe;
     char finLinea = ' ';
-
+    std::list<int>::iterator it;
     archivo >> pe;
     vertices.resize(pe);
     archivo >> pe;
-    for (int i = 0; i<vertices.size()-1; i++) {
+    for (int i = 0; i<vertices.size(); i++) {
         it = vertices[i].lstAdy.begin();
         while (!archivo.eof()&&(finLinea != 10)) { // 10 ascii de fin de línea
             vertices[i].lstAdy.insert(it,pe);
@@ -61,7 +61,9 @@ Laberinto::Laberinto(ifstream& archivo){
         archivo >> pe;
         archivo.get();
         finLinea = archivo.peek();
+        
         }
+        it++;
     }    
 }
 
@@ -91,22 +93,22 @@ bool Laberinto::xstVrt(int idVrt) const {
 
 bool Laberinto::xstAdy(int idVrtO, int idVrtD) const {
 bool booleano = false;;
-    if (idVrtO < vertices.size()){
-        if (0 <= idVrtO){
-           if (idVrtD < vertices.size()-1){
-                if (0 <= idVrtD){                    
+    if (idVrtO < vertices.size() && 0 <= idVrtO){
+           if (idVrtD < vertices.size() && 0 <= idVrtD){                   
                     vector<int>ady;
                     obtIdVrtAdys(idVrtO,ady);
                     int i=0;
-                    while(ady[i] != idVrtD || i<ady.size()){
+                    while(i<ady.size()){
                         if(ady[i] == idVrtD){
                             booleano = true;
                         }
+                        i++;
                     }
-                }
             }
-        }
     }
+    if(idVrtO == idVrtD){
+        booleano = false;
+    }       
     return booleano;
 }
 
@@ -142,41 +144,90 @@ int Laberinto::obtTotVrt() const {
 }
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const {
-    vector<int>dist;
-    vector<int>previo;
+    vector<int>previo; //arreglo donde se guardan los vertices adyacentes previos
+    vector<int>dist;   //distancia que hay entre idVrtO y un vertice
     vector<bool>visitados;
-    dist.resize(sizeof(vertices,INT_MAX));
-    previo.resize(sizeof(vertices,-1));
-    visitados.resize(sizeof(vertices,false));
-    if ((idVrtO < sizeof(vertices))&&(0 <= idVrtO)&&(idVrtD < sizeof(vertices))&&(0 <= idVrtD)){
-        for (int p=0; p<sizeof(vertices); p++){
+    previo.resize(vertices.size(), -1); //arreglo donde se guardan los vertices adyacentes previos
+    dist.resize(vertices.size(), INT_MAX);   //distancia que hay entre idVrtO y un vertice
+    visitados.resize(vertices.size(), false);    
+    if ((idVrtO < vertices.size())&&(0 <= idVrtO)&&(idVrtD < vertices.size())&&(0 <= idVrtD)){
+        for (int p=0; p<vertices.size(); p++){
             if(xstAdy(idVrtO,p)){
                 dist[p]= 1;
                 previo[p]=idVrtO;
             }
         }
-        dist[idVrtO] = 0;  
-        while(visitados[idVrtD]== false){              //busca la distancia menor y el vertice que la tiene
+        dist[idVrtO] = 0;               //indica la distancia de idVrtO en dist[]
+        visitados[idVrtO] = true;       //indica como visitado a IdVrtO
+        while(visitados[idVrtD]== false){                   //busca la distancia menor y el vertice que la tiene
             int idVrtMenor=-1;
             int distMenor= INT_MAX;
-            for(int y = 0; y<sizeof(vertices); y++){
+            for(int y = 0; y<vertices.size(); y++){
                 if(dist[y]<distMenor && !visitados[y]){
                     idVrtMenor=y;
                     distMenor=dist[y];
-                    previo[y]=idVrtO;
                 }
             }
-            vector<int>ady;
-            obtIdVrtAdys(idVrtMenor,ady);
+            vector<int> adys; 
+            obtIdVrtAdys(idVrtMenor,adys);
             visitados[idVrtMenor]=true;
             int prev=idVrtMenor;
-            for(int i=0;i<sizeof(idVrtMenor);i++){               
-                if(!visitados[ady[i]] && dist[idVrtMenor]+1<dist[ady[i]]){
-                    dist[ady[i]]=dist[idVrtMenor]+1;
+            for(int i=0;i<adys.size();i++){               
+                if(!visitados[adys[i]] && dist[idVrtMenor]+1<dist[adys[i]]){
+                    previo[adys[i]]=prev;
+                    dist[adys[i]]=dist[idVrtMenor]+1;                    
                 }
             }
+            
         }
+        camino.resize(dist[idVrtD]);
+            vector<int>::reverse_iterator it;
+            it = camino.rbegin();
+            int i;
+//            camino[*it]=idVrtD;
+//            it++;
+            i=previo[idVrtD];
+            while(it != camino.rend()){
+                camino[*it]=previo[i];
+                i=previo[i];
+                it++;
+            }
     }
+    return dist[idVrtD];
+//    vector<int>dist;
+//    vector<int>previo;
+//    vector<bool>visitados;
+//    dist.resize(vertices.size(),INT_MAX);
+//    previo.resize(vertices.size(), -1);
+//    visitados.resize(vertices.size(), false);
+//    if ((idVrtO < vertices.size())&&(0 <= idVrtO)&&(idVrtD < vertices.size())&&(0 <= idVrtD)){
+//        for (int p=0; vertices.size(); p++){
+//            if(xstAdy(idVrtO,p)){
+//                dist[p]= 1;
+//            }
+//        }
+//        dist[idVrtO] = 0;  
+//        while(visitados[idVrtD]== false){              //busca la distancia menor y el vertice que la tiene
+//            int idVrtMenor=-1;
+//            int distMenor= INT_MAX;
+//            for(int y = 0; y<vertices.size(); y++){
+//                if(dist[y]<distMenor && !visitados[y]){
+//                    idVrtMenor=y;
+//                    distMenor=dist[y];
+//                    previo[y]=idVrtO;
+//                }
+//            }
+//            vector<int>ady;
+//            obtIdVrtAdys(idVrtMenor,ady);
+//            visitados[idVrtMenor]=true;
+//            int prev=idVrtMenor;
+//            for(int i=0;i<sizeof(idVrtMenor);i++){               
+//                if(!visitados[ady[i]] && dist[idVrtMenor]+1<dist[ady[i]]){
+//                    dist[ady[i]]=dist[idVrtMenor]+1;
+//                }
+//            }
+//        }
+//    }
 }
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const {
 }
