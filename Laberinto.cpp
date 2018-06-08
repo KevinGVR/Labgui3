@@ -20,7 +20,7 @@
 #include <time.h>
 #include <bits/stl_vector.h>
 #include <limits.h>
-
+#include <iostream>
 
 
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
@@ -179,17 +179,15 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const
                 }
             }           
         }
-        camino.resize(dist[idVrtD]);
-            vector<int>::reverse_iterator it;
-            it = camino.rbegin();
+        camino.resize(1);
             int i;
-            i=previo[idVrtD];
-            while(it != camino.rend()){
-                camino[*it]=i;
+            i=idVrtD;
+            while(i != idVrtO){
+                camino.push_back(i);
                 i=previo[i];
-                it++;
             }
     }
+    
     return dist[idVrtD];
 }
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const {
