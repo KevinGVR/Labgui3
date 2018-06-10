@@ -17,6 +17,7 @@
 #include "Laberinto.h"
 #include "Adyacencia.h"
 
+//prueba para github
 
 /*
  * Simple C++ Test Suite
@@ -135,16 +136,6 @@ void testLaberinto3() {
         std::cout << "%TEST_FAILED% time=0 testname=testLaberinto3 (PbsLaberinto) message=error Fallo netodo constructor con lector archivos" << std::endl;   
 }
 
-void testLaberinto4() {   
-    bool booleano;
-    
-    if (!booleano)
-        std::cout << "%TEST_FAILED% time=0 testname=testLaberinto2 (PbsLaberinto) message=error Fallo netodo constructor con lector archivos" << std::endl;
-    
-    
-}
-
-
 void testCaminoMasCorto() {
     vector<int> camino;
     ifstream archivoEnterosEntrada("laberintop.txt", ios::in);
@@ -216,7 +207,7 @@ void testCaminoEncontrado() {
 void testSumaTotalFerormona() {
     Laberinto laberinto(10,5);
     double result = laberinto.sumaTotalFerormona();
-    if (true /*check result*/) {
+    if (true ) {
         std::cout << "%TEST_FAILED% time=0 testname=testSumaTotalFerormona (PbsLaberinto) message=error message sample" << std::endl;
     }
 }
@@ -225,9 +216,9 @@ int main(int argc, char** argv) {
     std::cout << "%SUITE_STARTING% PbsLaberinto" << std::endl;
     std::cout << "%SUITE_STARTED%" << std::endl;
 
-//   std::cout << "%TEST_STARTED% testLaberinto (PbsLaberinto)" << std::endl;
-//    testLaberinto();
-//    std::cout << "%TEST_FINISHED% time=0 testLaberinto (PbsLaberinto)" << std::endl;
+   std::cout << "%TEST_STARTED% testLaberinto (PbsLaberinto)" << std::endl;
+    testLaberinto();
+    std::cout << "%TEST_FINISHED% time=0 testLaberinto (PbsLaberinto)" << std::endl;
 
     std::cout << "%TEST_STARTED% testLaberinto2 (PbsLaberinto)" << std::endl;
     testLaberinto2();
@@ -237,9 +228,9 @@ int main(int argc, char** argv) {
     testLaberinto3();
     std::cout << "%TEST_FINISHED% time=0 testLaberinto3 (PbsLaberinto)" << std::endl;
 
-//    std::cout << "%TEST_STARTED% testLaberinto3 (PbsLaberinto)" << std::endl;
-//    testLaberinto4();
-//    std::cout << "%TEST_FINISHED% time=0 testLaberinto3 (PbsLaberinto)" << std::endl;
+    std::cout << "%TEST_STARTED% testLaberinto3 (PbsLaberinto)" << std::endl;
+    testLaberinto4();
+    std::cout << "%TEST_FINISHED% time=0 testLaberinto3 (PbsLaberinto)" << std::endl;
 
     std::cout << "%TEST_STARTED% testCaminoMasCorto (PbsLaberinto)" << std::endl;
     testCaminoMasCorto();
