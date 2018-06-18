@@ -22,8 +22,8 @@ public:
     ~Adyacencia();
     
     /* MÉTODOS OBTENEDORES */
-    double obtCntFerormona();
-    double obtValoracion();
+    double obtCntFerormona() const;
+    double obtValoracion() const;
     
     /* MÉTODOS ASIGNADORES */
     void asgCntFerormona(double cfn);

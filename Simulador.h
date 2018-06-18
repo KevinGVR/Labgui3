@@ -49,9 +49,8 @@ public:
     
 private:
     
-    Laberinto& laberinto; // se usa una referencia para no duplicar el Laberinto y no usar un apuntador
-    int cantidadHormigas;
-    vector<Hormiga> hormigas;
+    Laberinto& laberinto;
+    vector< Hormiga > hormigas;
     double decrFerormona;
     double probMovimientoAzar;
 };

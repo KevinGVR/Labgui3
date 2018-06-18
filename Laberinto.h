@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 /* 
  * File:   Laberinto.h
  * Author: Alan
@@ -8,13 +14,10 @@
 #ifndef LABERINTO_H
 #define LABERINTO_H
 
-#include <fstream>
 #include <memory>
-#include <list>
-#include <vector>
-#include <map>
 using namespace std;
 
+#include "Grafo.h"
 #include "Adyacencia.h"
 
 class Laberinto {
@@ -55,24 +58,20 @@ public:
     // EFE: retorna true si existe adyacencia entre los vértices idVrtO e idVrtD.
     bool xstAdy(int idNdO, int idVrtD) const;
 
-    // EFE: retorna el id del vértice inicial.
     int obtIdVrtInicial() const;
     
-    // EFE: retorna el id del vértice final.
     int obtIdVrtFinal() const;
     
     // REQ: 0 <= idVrt < N.
-    // EFE: retorna en "rsp" los idVrt de todos los vértices adyacentes a idVrt.
-    void obtIdVrtAdys(int idVrt, vector<int>& rsp) const;
+    // EFE: retorna en "rsp" los identificadores idVrtj de todos los vértices 
+    // adyacentes a idVrt en el grafo.
+    void obtIdVrtAdys(int idVrt, vector< int >& rsp) const;
 
     // REQ: 0 <= idVrt1 < N && 0 <= idVrt2 < N
-    // EFE: retorna el objeto Adyacencia entre <idVrtO, idVrtD>.
+    // EFE: retorna los datos de la adyacencia entre <idVrtO, idVrtD>.
     // NOTA: retorna por valor para que NO pueda ser modificado.    
     Adyacencia obtDatoAdy(int idVrtO, int idVrtD) const;
 
-    // EFE: retorna el total de arcos o adyacencias para idVrt en el grafo.
-    int obtCntAdy(int idVrt) const;
-    
     // EFE: retorna el total de arcos o adyacencias en el grafo.
     int obtTotAdy() const;
 
@@ -82,30 +81,30 @@ public:
     /* MÉTODOS OBSERVADORES NO BÁSICOS*/
 
     // REQ: 0 <= idVrt1 < N && 0 <= idVrt2 < N
-    // EFE: modifica "camino" con los índices de los vértices que conforman el
+    // EFE: retorna en "camino" los índices de los vértices que conforman el
     //      camino más corto entre idVrtO y idVrtD.
-    // EFE: retorna la longitud de este camino.
+    //      retorna la longitud de este camino.
     // NOTA: se usa algoritmo de Dijkstra.
-    int caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const;
+    int caminoMasCorto(int idVrtO, int idVrtD, vector< int >& camino) const;
     
     // REQ: 0 <= idVrt1 < N && 0 <= idVrt2 < N
-    // EFE: modifica "camino" con los índices de los vértices que conforman el
+    // EFE: retorna en "camino" los índices de los vértices que conforman el
     //      camino más corto entre idVrtO y idVrtD encontrado por la colonia de hormigas.
-    // EFE: retorna la longitud de este camino.    
+    //      retorna la longitud de este camino.    
     int caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const;
     
-    // EFE: retorna la suma total de la ferormona de las adyacencias.
+    // EFE: retorna la suma total de la ferormona de las adyacencias;
     double sumaTotalFerormona() const;
 
     /* MÉTODOS MODIFICADORES BÁSICOS */
     
     // REQ: 0 <= idVrtInicialN < N
     // EFE: asigna el identificador del vértice inicial del laberinto.
-    void asgIdVrtInicial(int idVrtInicialN);
+    void asgVrtInicial(int idVrtInicialN);
     
     // REQ: 0 <= idVrtFinalN < N
     // EFE: asigna el identificador del vértice inicial del laberinto.    
-    void asgIdVrtFinal(int idVrtFinalN);
+    void asgVrtFinal(int idVrtFinalN);
 
     // REQ: 0 <= idVrt1 < N && 0 <= idVrt2 < N
     // EFE: asigna el valor "ady" a la adyacencia <idVrtO, idVrtD>.
@@ -113,8 +112,7 @@ public:
     
     /* OTROS MODIFICADORES */
     
-    // EFE: decrementa la cantidad de ferormona de cada una de las adyacencias 
-    // por un factor decFerormona.
+    // EFE: decrementa la cantidad de ferormona de cada una de las adyacencias en decFerormona.
     void decrementarFerormonaAdys(double decrFerormona);
     
     // EFE: actualiza la valoración de las adyacencias con base en la ferormona de cada una.
@@ -122,20 +120,11 @@ public:
     
 private:
 
-    // REQ: (0 <= f < cntVrts) && (0 <= c < cntVrts)
-    // EFE: retorna el índice de la adyacencia de [f,c]
-    int obtIndiceAdy(int f, int c) const;
-    
-    struct Vertice {
-        list<int> lstAdy;
-        Vertice(){}; // constructor estándar de un vértice
-    };
-    
-    int idVrtInicial; // id vértice inicial
-    int idVrtFinal; // id vértice final
+    int idVrtInicial;
+    int idVrtFinal;
 
-    vector<Vertice> vertices; // vector de vértices vectorVrts.size() == cntVrts.
-    map<int,Adyacencia> datosAdys; // mapeo de datos de adyacencias, la clave se calcula con obtIndiceAdy(f,c).
+    shared_ptr< Grafo< int, Adyacencia > > laberintoPtr;
+    Grafo< int, Adyacencia >& laberinto; // para evitar notación de flecha
 };
 
 #endif /* LABERINTO_H */

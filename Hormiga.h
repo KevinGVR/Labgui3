@@ -14,9 +14,9 @@
 #ifndef HORMIGA_H
 #define HORMIGA_H
 
-#include <stdlib.h>     /* para srand, rand al moverse*/
-#include <string>
 #include <vector>
+#include <algorithm>    // std::remove_if
+#include <stdlib.h>     /* srand, rand */
 using namespace std;
 
 #include "Laberinto.h"
@@ -32,36 +32,35 @@ public:
     
     virtual ~Hormiga();
 
-    /* MÉTODOS OBSERVADORES */
+    /* OBSERVADORES */
     
-    // EFE: retorna true si la hormiga ya salió al laberinto.obtIdVrtInicial().
+    // EFE: retorna true si la hormiga ya salió del vértice inicial.
     bool salio();
     
-    // EFE: retorna true si la hormiga ya regresó al laberinto.obtIdVrtFinal().
+    // EFE: retorna true si la hormiga ya regresó al vértice inicial después de encontrar el vértice final.
     bool regreso();
     
-    // EFE: retorna 'F' o 'I' para indicar el destino de la hormiga.
+    // EFE: retorna 'F' o 'I' para indicar hacia adónde se dirige
     char obtDestino();
-    
+
     // EFE: retorna una hilera con la memoria de la hormiga.
     // EJEMPLO: "[2,6,7,12,54]" indicaría que la hormiga salió por 2 y viajó en
     // el orden de la secuencia hasta 54.
     string obtMemoria();
-
-    /* MÉTODOS MODIFICADORES */
-
-    // EFE: activa la hormiga y la ubica en laberinto.obtIdVrtInicial().
-    void salir();
-
-    // REQ: que la hormiga (*this) esté activa.
-    // EFE: la hormiga avanza a un vértice adyacente al que está en el laberinto.
-    void mover(double probMovAzar);
     
+    /* MODIFICADORES */
+
+    // EFE: activa la hormiga y la ubica en nodoInicial.
+    void salir(int idVrtInicial);
+    
+    // REQ: que la hormiga (*this) esté activa.
+    // EFE: la hormiga avanza a un vértice adyacente.
+    void mover(const Laberinto& lbrt);
+
     // EFE: asigna la referencia al laberinto que accesarán todas las hormigas.
     static void asgLaberinto(Laberinto& lbrt);
-    
-private:
 
+private:
     /* ATRIBUTOS ESTÁTICOS PRIVADOS ACCESIBLES POR TODAS LAS HORMIGAS */
     static Laberinto* laberinto_p; // puntero a laberinto 
     
