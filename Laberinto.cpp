@@ -71,13 +71,17 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector< int >& camino) con
 }
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const {
+    vector<bool> visitados;
+    visitados.resize(laberinto.obtTotVrt(),false);
+    visitados[idVrtO]=true;
+    
     return 0;
 }
 
 double Laberinto::sumaTotalFerormona() const {
     vector<int> vect;
     double suma;
-    for(int i=0;i<laberinto.obtTotAdy();i++){ 
+    for(int i=0;i<laberinto.obtTotVrt();i++){ 
         laberinto.obtIdVrtAdys(i,vect);
         for(int j=0;j<vect.size();j++){
             if(i<j){

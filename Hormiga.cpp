@@ -77,7 +77,29 @@ void Hormiga::salir(int idVrtInicial) {
 }
 
 void Hormiga::mover(const Laberinto& lbrt) {
-
+    vector<bool> visitados;
+    int contador;
+    visitados.resize(lbrt.obtTotVrt(),false);
+    while(contador<visitados.size() && idVrtActual != lbrt.obtIdVrtFinal()){
+        visitados[idVrtActual]=true;
+        int i=0;
+        vector<int> adya;
+        lbrt.obtIdVrtAdys(idVrtActual,adya);
+        while(i<adya.size() && visitados[adya[i]]){
+            if(visitados[adya[i]]){
+                i++;                
+            }
+            if(i>adya.size()){
+                int o = memoria.size()-1;
+                memoria.pop_back();                
+                idVrtActual = memoria[o];
+            }else{
+                memoria.push_back(idVrtActual);
+                idVrtActual=adya[i];
+                contador++;
+            }
+        }        
+    }
 }
 
 void Hormiga::asgLaberinto(Laberinto& lbrt) {

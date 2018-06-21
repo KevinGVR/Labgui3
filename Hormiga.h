@@ -64,6 +64,7 @@ private:
     /* ATRIBUTOS ESTÁTICOS PRIVADOS ACCESIBLES POR TODAS LAS HORMIGAS */
     static Laberinto* laberinto_p; // puntero a laberinto 
     
+    
     /* ATRIBUTOS PRIVADOS OBLIGATORIOS */
     vector<int> memoria; // vector de idVrt que representa el recorrido de la hormiga
     int idVrtActual; // idVrt del vértice donde se encuentra la hormiga actualmente    
