@@ -80,10 +80,12 @@ double Laberinto::sumaTotalFerormona() const {
     for(int i=0;i<laberinto.obtTotAdy();i++){ 
         laberinto.obtIdVrtAdys(i,vect);
         for(int j=0;j<vect.size();j++){
-            if()
+            if(i<j){
+                suma += laberinto.obtDatoAdy(i,j).obtCntFerormona();
+            }
         }
-    }
-    return 0.0;
+    }  
+    return suma;
 }
 
 void Laberinto::asgVrtInicial(int idVrtInicialN) {
@@ -99,9 +101,27 @@ void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
 }
 
 void Laberinto::decrementarFerormonaAdys(double decrFerormona) {
-    
+    for (int i =0; i<laberinto.obtTotVrt();i++){
+        vector <int> ady;
+        laberinto.obtIdVrtAdys(i,ady);
+        for(int c=0;c<ady.size();c++){
+            Adyacencia ady(laberinto.obtDatoAdy(i,c));
+            double cantFeror;
+            cantFeror= ady.obtCntFerormona()*decrFerormona-ady.obtCntFerormona();
+            ady.asgCntFerormona(cantFeror);
+        }    
+    }
 }
 
 void Laberinto::actualizarValoracionAdys() {
-
+    double totalFeror = sumaTotalFerormona();
+    for (int i =0; i<laberinto.obtTotVrt();i++){
+        vector <int> adya;
+        laberinto.obtIdVrtAdys(i,adya);
+        for(int c=0;c<adya.size();c++){
+            Adyacencia ady(laberinto.obtDatoAdy(i,c));
+            double cantFeror= totalFeror/ady.obtCntFerormona();
+            laberinto.asgDatoAdy(i,c,ady);
+        }    
+    }
 }
