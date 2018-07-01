@@ -71,13 +71,30 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector< int >& camino) con
 }
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const {
-    return 0;
+    int vrtActual=idVrtO;    
+    while(vrtActual != idVrtD){
+        camino.push_back(vrtActual);
+        double masFero=-1;
+        int idMasFero =-1;
+        vector<int> adys;
+        laberinto.obtIdVrtAdys(vrtActual,adys);
+        for(int i=0; i<adys.size();i++){
+            Adyacencia adya;
+            adya = laberinto.obtDatoAdy(vrtActual,adys[0]);
+            if(adya.obtCntFerormona()>masFero){                
+                masFero=adya.obtCntFerormona();
+                idMasFero=adys[i];
+            }
+        }
+        vrtActual=idMasFero;
+    }
+    return camino.size();
 }
 
 double Laberinto::sumaTotalFerormona() const {
     vector<int> vect;
     double suma;
-    for(int i=0;i<laberinto.obtTotAdy();i++){ 
+    for(int i=0;i<laberinto.obtTotVrt();i++){ 
         laberinto.obtIdVrtAdys(i,vect);
         for(int j=0;j<vect.size();j++){
             if(i<j){

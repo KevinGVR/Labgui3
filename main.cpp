@@ -22,10 +22,23 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
+//    Simulador simulador;
     cout<< "Que tipo de laberinto desea?"<<endl;
     cout<< "Ingrese 1 para Aleatorio, 2 para laberinto pequeño, 3 para laberinto mediano"<<endl;
     int in;
     cin >> in;
+    cout<< "Ingrese el vertice inicial"<<endl;
+    int ori;
+    cin >> ori;
+    cout<< "Ingrese el vertice destino"<<endl;
+    int dest;
+    cin >> dest;
+    cout<< "Ingrese la cantidad de Hormigas"<<endl;
+    int ants;
+    cin >> ants;
+    cout<< "Ingrese la cantidad de decremento de Ferormona"<<endl;
+    int decre;
+    cin >> decre;
     switch ( in )  
       {  
         case 1:  
@@ -33,13 +46,14 @@ int main(int argc, char** argv) {
             int cant;
             cin>>cant;
             cout<< "Ingrese la probabilidad de Adyacencia (debe ser entre 0 y 1"<<endl;
-//            int prob;
-//            cin>>prob;
-//            simulador->laberinto = new Laberinto(cant,prob);
+            double proba;
+            cin>>proba;
+//            simulador.iniciar(ori,dest,ants,decre,prob);
             break;  
         case 2:  
-//            ifstream archivoEnterosEntrada("laberintop.txt", ios::in);
+   //         ifstream archivoEnterosEntrada("laberintop.txt", ios::in);
 //            laberinto = new Laberinto(archivoEntrada);
+           // simulador.
             break;
         case 3:   
 //            ifstream archivoEnterosEntrada("laberintom.txt", ios::in);

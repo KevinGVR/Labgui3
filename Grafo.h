@@ -23,6 +23,8 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <limits.h>
+
+#include "Adyacencia.h"
 using namespace std;
 
 template < typename V, typename A >
@@ -149,19 +151,26 @@ private:
 
 template < typename V, typename A >
 Grafo< V, A >::Grafo(int cantidadVrt, double probabilidadAdy) {
- std::list<int>::iterator it;
-        vectorVrts.resize(cantidadVrt);
-        for(int i=0;i<cantidadVrt;i++){
-            double random;
-            it = vectorVrts[i].lstAdy.begin(); 
-            for(int y=0;y<cantidadVrt;y++){
+    int cant;
+    for(int i=0; i < cantidadVrt; i++){
+        cant += i-1;
+    }
+    mapAdys.reserve(cant);    
+    vectorVrts.resize(cantidadVrt);
+    long y=0;    
+    for(long i=0;i<cantidadVrt;i++){
+            double random;            
+            y=i++;
+            for(y; y<cantidadVrt;y++){
                 double srand (time(NULL));
-                random = rand()% 10+1;
-                random/10;
+                random = rand()% 1000+1;
+                random = random/1000.0;
                 if(random <= probabilidadAdy){
-                    vectorVrts[i].lstAdy.insert(it,y);
-                    ++it;
-                }
+                    A a;
+                    vectorVrts[i].lstAdy.push_back(y);
+                    long x = fIdUnico(i,y,cantidadVrt);
+                    //mapAdys.insert(a);                   
+                }                
             }
         }
 }
@@ -173,11 +182,18 @@ int pe;
     std::list<int>::iterator it;
     archivo >> pe;
     vectorVrts.resize(pe);
+    int cant;
+    for(int i=0; i < pe; i++){
+        cant += i-1;
+    }
+    mapAdys.reserve(cant);
     archivo >> pe;
     for (int i = 0; i<vectorVrts.size(); i++) {
         it = vectorVrts[i].lstAdy.begin();
         while (!archivo.eof()&&(finLinea != 10)) { // 10 ascii de fin de línea
             vectorVrts[i].lstAdy.insert(it,pe);
+            long indice = fIdUnico(i,pe,vectorVrts.size());
+            mapAdys.at(indice) = A();
             archivo >> pe;
             archivo.get(); // consume un blanco
             finLinea = archivo.peek(); // intenta leer fin de línea
