@@ -97,9 +97,10 @@ double Laberinto::sumaTotalFerormona() const {
     for(int i=0;i<laberinto.obtTotVrt();i++){ 
         laberinto.obtIdVrtAdys(i,vect);
         for(int j=0;j<vect.size();j++){
-            if(i<j){
-                suma += laberinto.obtDatoAdy(i,j).obtCntFerormona();
-            }
+            if(laberinto.xstAdy(i,vect[j])){
+                laberinto.obtDatoAdy(i,vect[j]);
+                suma = suma + laberinto.obtDatoAdy(i,vect[j]).obtCntFerormona();
+            }   
         }
     }  
     return suma;

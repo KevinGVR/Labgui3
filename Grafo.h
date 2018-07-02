@@ -150,61 +150,52 @@ private:
 };
 
 template < typename V, typename A >
-Grafo< V, A >::Grafo(int cantidadVrt, double probabilidadAdy) {
-    int cant;
-    for(int i=0; i < cantidadVrt; i++){
-        cant += i-1;
-    }
-    mapAdys.reserve(cant);    
-    vectorVrts.resize(cantidadVrt);
-    long y=0;    
+Grafo< V, A >::Grafo(int cantidadVrt, double probabilidadAdy) { 
+    vectorVrts.resize(cantidadVrt);    
     for(long i=0;i<cantidadVrt;i++){
             double random;            
-            y=i++;
-            for(y; y<cantidadVrt;y++){
-                double srand (time(NULL));
-                random = rand()% 1000+1;
-                random = random/1000.0;
-                if(random <= probabilidadAdy){
-                    A a;
-                    vectorVrts[i].lstAdy.push_back(y);
-                    long x = fIdUnico(i,y,cantidadVrt);
-                    //mapAdys.insert(a);                   
-                }                
+            for(long y=0; y<cantidadVrt;y++){
+                if(i<y){
+                    double srand (time(NULL));
+                    random = rand()% 1000+1;
+                    random = random/1000.0;
+                    if(random <= probabilidadAdy){
+                        A a;
+                        vectorVrts[i].lstAdy.push_back(y);
+                        long x = fIdUnico(i,y,cantidadVrt);
+                        mapAdys.insert(typename unordered_map<long,A>::value_type(x,a));                   
+                    }
+                }    
             }
         }
 }
 
 template < typename V, typename A >
 Grafo< V, A >::Grafo(ifstream& archivo) {
-int pe;
+    int pe;
+    A a;
     char finLinea = ' ';
-    std::list<int>::iterator it;
     archivo >> pe;
     vectorVrts.resize(pe);
-    int cant;
-    for(int i=0; i < pe; i++){
-        cant += i-1;
-    }
-    mapAdys.reserve(cant);
     archivo >> pe;
     for (int i = 0; i<vectorVrts.size(); i++) {
-        it = vectorVrts[i].lstAdy.begin();
         while (!archivo.eof()&&(finLinea != 10)) { // 10 ascii de fin de línea
-            vectorVrts[i].lstAdy.insert(it,pe);
-            long indice = fIdUnico(i,pe,vectorVrts.size());
-            mapAdys.at(indice) = A();
+            
+            vectorVrts[i].lstAdy.push_back(pe);
+            long x = fIdUnico(i,pe,vectorVrts.size());
+            mapAdys.insert(typename unordered_map<long,A>::value_type(x,a));   
             archivo >> pe;
             archivo.get(); // consume un blanco
             finLinea = archivo.peek(); // intenta leer fin de línea
         }
         if (!archivo.eof()){
-        vectorVrts[i].lstAdy.insert(it,pe);
+        vectorVrts[i].lstAdy.push_back(pe);
+        long x = fIdUnico(i,pe,vectorVrts.size());
+        mapAdys.insert(typename unordered_map<long,A>::value_type(x,a)); 
         archivo >> pe;
         archivo.get();
         finLinea = archivo.peek();        
         }
-        it++;
     }  
 }
 
@@ -341,4 +332,5 @@ void Grafo< V, A >::asgDatoAdy(int idVrtO, int idVrtD, const A& a) {
     mapAdys.find(id)->second = aa;
 }
 #endif /* GRAFO_H */
+
 

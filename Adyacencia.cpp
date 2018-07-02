@@ -13,7 +13,7 @@
 
 #include "Adyacencia.h"
 
-Adyacencia::Adyacencia() : cntFerormona(0.0), valoracion(0.0) {
+Adyacencia::Adyacencia() : cntFerormona(1.0), valoracion(0.0) {
 }
 
 Adyacencia::Adyacencia(double cf, double v) : cntFerormona(cf), valoracion(v) {
