@@ -1,16 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   PbsLaberinto.cpp
- * Author: b57600
- *
- * Created on 16 de abril de 2018, 07:13 AM
- */
-
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
@@ -195,31 +182,31 @@ void testCaminoMasCorto() {
     ifstream archivoEnterosEntrada("laberintop.txt", ios::in);
     Laberinto laberinto(archivoEnterosEntrada);
     int result = 0;
+    bool booleano;
      
     result = laberinto.caminoMasCorto(0, 6, camino);
-    for(int i = 0; i<result+1;i++){
-        std::cout<<camino[i]<<endl;
+    if(camino[0]==0 && camino[1] ==6){
+        booleano = true;
     }
-    cout<<"termina prueba 1"<<endl;
-    if (result!=1 ) {
+    if (result!=1 && booleano) {
         std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (PbsLaberinto) message=error distancia 1" << std::endl;
-    }
-   
+    } 
+    
+    booleano = false;
     result = laberinto.caminoMasCorto(0, 4, camino);
-    for(int i = 0; i<result+1;i++){
-        std::cout<<camino[i]<<endl;
+    if(camino[0]==0 && camino[1] ==4 && camino[2] == 5){
+        booleano = true;
     }
-    cout<<"termina prueba 2"<<endl;
-    if (result!=2 ) {
+    if (result!=2 && booleano) {
         std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (PbsLaberinto) message=error distancia 2" << std::endl;
     }
-
+    
+    booleano = false;
     result = laberinto.caminoMasCorto(0, 3, camino);
-    for(int i = 0; i<result+1;i++){
-        std::cout<<camino[i]<<endl;
+    if(camino[0]==0 && camino[1] ==3 && camino[2] == 4 && camino[3]== 5){
+        booleano = true;
     }
-    cout<<"termina prueba 3"<<endl;
-    if (result!=3 ) {
+    if (result!=3 && booleano) {
         std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (PbsLaberinto) message=error distancia 3" << std::endl;
     }
 }
@@ -231,44 +218,56 @@ void testCaminoEncontrado() {
     laberinto.asgVrtInicial(0);
     laberinto.asgVrtFinal(6);
     int result = 0;
+    bool  booleano;
      
-    result = laberinto.caminoEncontrado(0, 6, camino);
-    for(int i = 0; i<result;i++){
-        std::cout<<camino[i]<<endl;        
+    result = laberinto.caminoEncontrado(8, 3, camino);
+    if(camino[0]==8 && camino[1] ==3){
+        booleano = true;
     }
-    cout<<"termina prueba 1"<<endl;
-    if (result!=1 ) {
+    if (result!=1 && booleano) {
         std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (PbsLaberinto) message=error distancia 1" << std::endl;
     }
     
+    booleano = false;
     laberinto.asgVrtInicial(0);
     laberinto.asgVrtFinal(4);
     result = laberinto.caminoEncontrado(0, 4, camino);
-    for(int i = 0; i<result;i++){
-        std::cout<<camino[i]<<endl;
+    if(camino[0]==0 && camino[1] ==5 && camino[2] == 4){
+        booleano = true;
     }
-    cout<<"termina prueba 2"<<endl;
-    if (result!=2 ) {
+    if (result!=2 && booleano) {
         std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (PbsLaberinto) message=error distancia 2" << std::endl;
     }
     
+    booleano = false;
     laberinto.asgVrtInicial(0);
     laberinto.asgVrtFinal(3);
     result = laberinto.caminoEncontrado(0, 3, camino);
-    for(int i = 0; i<result;i++){
-        std::cout<<camino[i]<<endl;
+    if(camino[0]==0 && camino[1] ==2 && camino[2] == 8 && camino[3]== 3){
+        booleano = true;
     }
-    cout<<"termina prueba 3"<<endl;
-    if (result!=3 ) {
+    if (result!=3 && booleano) {
         std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (PbsLaberinto) message=error distancia 3" << std::endl;
     }
 }
 
 void testSumaTotalFerormona() {
     ifstream archivoEnterosEntrada("laberintop.txt",ios::in);
+    vector<int> vect;
     Laberinto laberinto(archivoEnterosEntrada);
+    double cntAdy = laberinto.obtTotAdy();
+    for(int i =0; i<laberinto.obtTotVrt();i++){
+        laberinto.obtIdVrtAdys(i,vect);
+        for(int j = 0; j<vect.size(); j++){
+            
+                Adyacencia a;
+                a.asgCntFerormona(1.0);
+                laberinto.asgDatoAdy(i, vect[j], a);
+            
+        }
+    }
     double result = laberinto.sumaTotalFerormona();
-    if (result != 10.0) {
+    if (result != cntAdy) {
         std::cout << "%TEST_FAILED% time=0 testname=testSumaTotalFerormona (PbsLaberinto) message=error message sample" << std::endl;
     }
 }

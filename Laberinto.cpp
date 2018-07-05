@@ -92,15 +92,15 @@ int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) con
 }
 
 double Laberinto::sumaTotalFerormona() const {
-    vector<int> vect;
     double suma;
     for(int i=0;i<laberinto.obtTotVrt();i++){ 
-        laberinto.obtIdVrtAdys(i,vect);
-        for(int j=0;j<vect.size();j++){
-            if(laberinto.xstAdy(i,vect[j])){
+        vector<int> vect;
+        laberinto.obtIdVrtAdys(i,vect); 
+        for(int j=0;j<vect.size();j++){    
+            if(i < vect[j]){ 
                 laberinto.obtDatoAdy(i,vect[j]);
                 suma = suma + laberinto.obtDatoAdy(i,vect[j]).obtCntFerormona();
-            }   
+            }        
         }
     }  
     return suma;
