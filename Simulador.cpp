@@ -24,8 +24,20 @@ Simulador::~Simulador() {
 
 void Simulador::iniciar(int idVrtInicial, int idVrtFinal, int cntHrm, double decrFerormona, double probMovimientoAzar) {
 	Hormiga::asgLaberinto(laberinto);
+        laberinto.asgVrtInicial(idVrtInicial);
+        laberinto.asgVrtFinal(idVrtFinal);
+        Hormiga hormiga;
+        for(int i = 0 ; i<hormigas.size() ; i++){
+            hormigas.push_back(hormiga);
+        }
+        decrFerormona = decrFerormona;
+        probMovimientoAzar = probMovimientoAzar;
 }
 
 void Simulador::ejecutar(int p) {
-
+    for(int i = 0 ; i < hormigas.size(); i++){
+        for(int i =0;i<p ; i++){
+            hormigas[i].mover(probMovimientoAzar);
+        }
+    }
 }
